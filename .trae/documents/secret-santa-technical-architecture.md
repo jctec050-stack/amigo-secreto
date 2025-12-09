@@ -20,17 +20,22 @@ graph TD
 ```
 
 ## 2. Technology Description
-- Frontend: React@18 + tailwindcss@3 + vite
-- Initialization Tool: vite-init
-- Backend: Supabase (PostgreSQL, Authentication, Storage)
-- Additional: React Router DOM para navegación
+
+* Frontend: React\@18 + tailwindcss\@3 + vite
+
+* Initialization Tool: vite-init
+
+* Backend: Supabase (PostgreSQL, Authentication, Storage)
+
+* Additional: React Router DOM para navegación
 
 ## 3. Route definitions
-| Route | Purpose |
-|-------|---------|
-| / | Página de inicio con introducción y botón para crear sorteo |
-| /participantes | Formulario para agregar nombres de participantes |
-| /sorteo/:id | Página de sorteo con resultados y generación de enlaces |
+
+| Route             | Purpose                                                      |
+| ----------------- | ------------------------------------------------------------ |
+| /                 | Página de inicio con introducción y botón para crear sorteo  |
+| /participantes    | Formulario para agregar nombres de participantes             |
+| /sorteo/:id       | Página de sorteo con resultados y generación de enlaces      |
 | /resultado/:token | Página pública para que participantes vean su amigo asignado |
 
 ## 4. API definitions
@@ -38,31 +43,36 @@ graph TD
 ### 4.1 Core API
 
 **Crear Sorteo**
+
 ```
 POST /api/sorteos
 ```
 
 Request:
-| Param Name| Param Type  | isRequired  | Description |
-|-----------|-------------|-------------|-------------|
-| participantes | array      | true        | Array de nombres de participantes |
+
+| Param Name    | Param Type | isRequired | Description                       |
+| ------------- | ---------- | ---------- | --------------------------------- |
+| participantes | array      | true       | Array de nombres de participantes |
 
 Response:
-| Param Name| Param Type  | Description |
-|-----------|-------------|-------------|
-| id        | string      | ID único del sorteo |
-| status    | string      | Estado del sorteo |
+
+| Param Name | Param Type | Description         |
+| ---------- | ---------- | ------------------- |
+| id         | string     | ID único del sorteo |
+| status     | string     | Estado del sorteo   |
 
 **Obtener Resultado**
+
 ```
 GET /api/sorteos/:id/resultado/:token
 ```
 
 Response:
-| Param Name| Param Type  | Description |
-|-----------|-------------|-------------|
-| participante | string   | Nombre del participante |
-| amigo_asignado | string | Nombre del amigo secreto asignado |
+
+| Param Name      | Param Type | Description                       |
+| --------------- | ---------- | --------------------------------- |
+| participante    | string     | Nombre del participante           |
+| amigo\_asignado | string     | Nombre del amigo secreto asignado |
 
 ## 5. Server architecture diagram
 
@@ -115,6 +125,7 @@ erDiagram
 ### 6.2 Data Definition Language
 
 **Tabla Sorteos**
+
 ```sql
 -- crear tabla
 CREATE TABLE sorteos (
@@ -134,6 +145,7 @@ GRANT ALL PRIVILEGES ON sorteos TO authenticated;
 ```
 
 **Tabla Participantes**
+
 ```sql
 -- crear tabla
 CREATE TABLE participantes (
@@ -154,6 +166,7 @@ GRANT ALL PRIVILEGES ON participantes TO authenticated;
 ```
 
 **Tabla Asignaciones**
+
 ```sql
 -- crear tabla
 CREATE TABLE asignaciones (
@@ -177,6 +190,7 @@ GRANT ALL PRIVILEGES ON asignaciones TO authenticated;
 ```
 
 **Políticas de seguridad RLS**
+
 ```sql
 -- Permitir lectura pública de sorteos
 CREATE POLICY "Sorteos públicos" ON sorteos
@@ -190,3 +204,4 @@ CREATE POLICY "Participantes con token" ON participantes
 CREATE POLICY "Asignaciones públicas" ON asignaciones
     FOR SELECT USING (true);
 ```
+
